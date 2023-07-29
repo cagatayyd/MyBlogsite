@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using MyBlogsite.Entities;
 using MyBlogsite.Models;
 using MyBlogsite.Service;

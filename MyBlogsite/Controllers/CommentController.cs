@@ -1,11 +1,8 @@
 ﻿
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using MyBlogsite.Entities;
 using MyBlogsite.Models;
 using MyBlogsite.Service;
-using System.ComponentModel.Design;
-using System.Diagnostics;
 
 namespace MyBlogsite.Controllers
 {
