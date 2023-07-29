@@ -16,6 +16,7 @@ namespace MyBlogsite.Controllers
         private readonly INewsManageRepository _newsManageRepository;
         private readonly IMapper _mapper;
         #endregion
+
         #region Ctor
         public NewsController(INewsManageRepository newsManageRepository, IMapper mapper)
         {

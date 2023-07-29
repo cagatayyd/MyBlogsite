@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using MyBlogsite.DbContexts;
 using MyBlogsite.Entities;
-// using MyBlogsite.Service;
+using MyBlogsite.Service;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +23,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-//builder.Services.AddScoped<INewsManageRepository, NewsManageRepository>();
+builder.Services.AddScoped<INewsManageRepository, NewsManageRepository>();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

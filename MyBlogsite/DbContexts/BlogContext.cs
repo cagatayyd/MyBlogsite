@@ -17,17 +17,6 @@ namespace MyBlogsite.DbContexts
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Comment>()
-                .HasOne(a => a.News)
-                .WithMany(b=>b.Comments)
-                .HasForeignKey("NewsId")
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<Comment>()
-                .HasOne(a => a.User)
-                .WithMany(b => b.Comments)
-                .HasForeignKey("UserId")
-                .OnDelete(DeleteBehavior.Cascade);
 
         }
     }
