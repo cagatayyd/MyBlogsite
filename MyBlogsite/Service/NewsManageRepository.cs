@@ -5,13 +5,18 @@ using MyBlogsite.Entities;
 namespace MyBlogsite.Service
 {
     public class NewsManageRepository : INewsManageRepository
-    { 
+    {
+        #region Props
         private readonly BlogContext _context;
-        
+        #endregion
+        #region Ctor
         public NewsManageRepository(BlogContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
+        #endregion
+
+        #region News
         public async Task<IEnumerable<News>> GetNewsAsync() //tüm haber
         {
             return await _context.News.OrderBy(c => c.Title).ToListAsync();
@@ -45,16 +50,15 @@ namespace MyBlogsite.Service
 
             return (collectionToReturn);
         }
-        public Task AddNewsAsync( //haber ekle 
-            News news)
+        public async Task AddNewsAsync(News news)
         {
             if (news != null)
             {
                 _context.News.Add(news);
+                await _context.SaveChangesAsync();
             }
-
-            return Task.CompletedTask;
         }
+
 
         public async Task DeleteNewsAsync(int newsId)
         {
@@ -62,15 +66,16 @@ namespace MyBlogsite.Service
 
             if (news != null)
             {
-                // Habere ait yorumları silin.
                 _context.Comments.RemoveRange(news.Comments);
 
                 _context.News.Remove(news);
+
                 await _context.SaveChangesAsync();
             }
         }
+        #endregion
 
-        //Yorum
+        #region Comment
         public async Task AddCommentForNewsAsync(int newsId, Comment comment) //yorum ekle 
         {
             var news = await GetNewsAsync(newsId);
@@ -85,22 +90,56 @@ namespace MyBlogsite.Service
             return await _context.Comments
                            .Where(p => p.Id == newsId).ToListAsync();
         }
+        public async Task<Comment?> GetSpecificCommentForNews(int newsId, int commentId)
+        {
+            return await _context.Comments
+               .Where(p => p.NewsId == newsId && p.Id == commentId)
+               .FirstOrDefaultAsync();
+        }
         public void DeleteCommentsForNewsAsync(Comment comment) //yorum sil 
         {
             _context.Comments.Remove(comment);
         }
-        //user
+        public async Task<int> GetNumberOfCommentsForNewsAsync(int newsId)
+        {
+            var commentsForNews = await _context.Comments
+                .Where(c => c.NewsId == newsId)
+                .ToListAsync();
+
+            return commentsForNews.Count;
+        }
+        #endregion
+
+        #region User
         public async Task<IEnumerable<User>> GetUserProfileAsync( // profillere tıklama girme
            int userId)
         {
             return await _context.Users
                            .Where(p => p.Id == userId).ToListAsync();
         }
-        
+        public async Task<User> CreateUserAsync(User user)
+        {
+            if (user != null)
+            {
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
+                return user;
+            }
+
+            return null;
+        }
+        public async Task<User> Login(string userName, string password)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == userName && u.Password == password);
+
+            return user;
+        }
         public async Task<bool> SaveChangesAsync()
         {
             return (await _context.SaveChangesAsync() >= 0);
         }
-        
+        #endregion
+
+
     }
 }

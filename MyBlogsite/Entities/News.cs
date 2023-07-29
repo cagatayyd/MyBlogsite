@@ -4,14 +4,12 @@ using System.Xml.Linq;
 
 namespace MyBlogsite.Entities
 {
-    public class News
+    public class News : BaseEntity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
         [Required]
         [StringLength(50)]
         public string Title { get; set; }
+         public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
         [Required]
         public string Content { get; set; }
         [Required]
@@ -19,7 +17,7 @@ namespace MyBlogsite.Entities
         public User User { get; set; }
 
         [ForeignKey("UserId")]
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         public int NumberOfComments
         {
             get
@@ -27,7 +25,7 @@ namespace MyBlogsite.Entities
                 return Comments.Count;
             }
         }
-        [InverseProperty("News")]
+        [NotMapped]
         public ICollection<Comment> Comments { get; set; }
         = new List<Comment>();
     }

@@ -3,11 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyBlogsite.Entities
 {
-    public class User
+    public class User : BaseEntity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
         [Required]
         [StringLength(20)]
         public string Name { get; set; }
@@ -23,6 +20,7 @@ namespace MyBlogsite.Entities
         [Required]
         [StringLength(20)]
         public string Password { get; set; }
+        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
         public byte[] ProfilePicture { get; set; } = null;
 
         [NotMapped]

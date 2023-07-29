@@ -10,10 +10,13 @@ namespace MyBlogsite.Service
         Task AddNewsAsync(News news);
         Task DeleteNewsAsync(int newsId);
         Task AddCommentForNewsAsync(int newsId, Comment comment); // ? 
-        // Task<IEnumerable<Comment>> GetNumberOfCommentsForNewsAsync(int newsId);
+        Task<int> GetNumberOfCommentsForNewsAsync(int newsId);
         Task<IEnumerable<Comment>> GetCommentsForNewsAsync(int newsId);
+        Task<Comment> GetSpecificCommentForNews(int newsId, int commentId);
         Task<IEnumerable<User>> GetUserProfileAsync(int userId);
+        Task<User> CreateUserAsync(User user);
         public void DeleteCommentsForNewsAsync(Comment comment);
+        Task<User> Login(string userName, string password);
         Task<bool> SaveChangesAsync();
     }
 }
